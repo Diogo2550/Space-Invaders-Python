@@ -15,7 +15,7 @@ class RankingButton(UIButton):
     def _awake(self):
         super()._awake()
         
-        rankingSprite = SpriteComponent('Assets/Images/UI/Menu/ranking_button.png')
+        rankingSprite = SpriteComponent('assets/images/ui/menu/ranking_button.png')
         self.addComponent(rankingSprite)
 
     def _start(self):

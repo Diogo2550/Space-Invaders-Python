@@ -15,7 +15,7 @@ class SettingsButton(UIButton):
     def _awake(self):
         super()._awake()
         
-        settingsSprite = SpriteComponent('Assets/Images/UI/Menu/settings_button.png')
+        settingsSprite = SpriteComponent('assets/images/ui/menu/settings_button.png')
         self.addComponent(settingsSprite)
 
     def _start(self):

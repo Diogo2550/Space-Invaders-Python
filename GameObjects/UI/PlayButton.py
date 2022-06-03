@@ -14,9 +14,8 @@ class PlayButton(UIButton):
 
     def _awake(self):
         super()._awake()
-        print('acordado')
 
-        playSprite = SpriteComponent('Assets/Images/UI/Menu/start_button.png')
+        playSprite = SpriteComponent('assets/images/ui/menu/start_button.png')
         self.addComponent(playSprite)
 
     def _start(self):

@@ -15,7 +15,7 @@ class CloseButton(UIButton):
     def _awake(self):
         super()._awake()
         
-        closeSprite = SpriteComponent('Assets/Images/UI/Menu/close_button.png')
+        closeSprite = SpriteComponent('assets/images/ui/menu/close_button.png')
         self.addComponent(closeSprite)
 
     def _start(self):
