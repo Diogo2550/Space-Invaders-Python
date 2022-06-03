@@ -9,6 +9,7 @@ from GameObjects.UI.SettingsButton import SettingsButton
 from GameObjects.UI.RankingButton import RankingButton
 from GameObjects.UI.DifficultyChangeButton import DifficultyChangeButton
 from GameObjects.Player import Player
+from GameObjects.EnemiesGrid import EnemiesGrid
 
 from Core.GameObject import GameObject
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
@@ -72,8 +73,10 @@ scene.addGameObject(settings_menu)
 scene = Scene('gameplay')
 
 player = Player()
+enemyGrid = EnemiesGrid()
 
 scene.addGameObject(player)
+scene.addGameObject(enemyGrid)
 
 
 # Adição dos gameobjects ao game
