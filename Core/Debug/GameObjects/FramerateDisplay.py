@@ -9,9 +9,10 @@ class FramerateDisplay(GameObject):
     def __init__(self):
         super().__init__()
         self.framerate = {
-            'interval': .5,
+            'interval': 1,
 			'sum': 0,
-			'timeElapsed': 0
+			'timeElapsed': 0,
+			'count': 0
 		}
     
     def _awake(self):
@@ -24,12 +25,14 @@ class FramerateDisplay(GameObject):
         
     def _update(self):
         self.framerate['timeElapsed'] += Game.DELTA_TIME
+        self.framerate['count'] += 1
         
         if(Game.DELTA_TIME > 0):
 	        self.framerate['sum'] += 1/Game.DELTA_TIME
         
         if(self.framerate['timeElapsed'] >= self.framerate['interval']):
-            self.text.setText(f"Frames: {self.framerate['sum'] / self.framerate['interval']}")
+            self.text.setText("Frames por segundo: %.0f" % (self.framerate['sum'] / self.framerate['count']))
             
             self.framerate['timeElapsed'] = 0
             self.framerate['sum'] = 0
+            self.framerate['count'] = 0
