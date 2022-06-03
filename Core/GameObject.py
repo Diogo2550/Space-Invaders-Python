@@ -101,6 +101,12 @@ class GameObject(GameObjectP):
     def setPosition(self, position):
         self.transform.setPosition(position)
         
+    def setLocalPosition(self, position):
+        if(self.transform.parent):
+            self.setPosition(self.transform.parent.getPosition() + position)
+        else:
+            self.setPosition(position)
+        
     def getPosition(self):
         return self.transform.getPosition()
 

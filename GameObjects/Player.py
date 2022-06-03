@@ -31,11 +31,6 @@ class Player(GameObject):
         self.fireReload = .5 / Game.GAME_DIFFICULTY
         self.moveSpeedBase = Game.moveSpeedBase * Game.GAME_DIFFICULTY
 
-        if(Game.GAME_MODE == 2):
-            self.enabled = True
-        else:
-            self.enabled = False
-
         keyboard = Game.getKeyboard()
         velocity = Vector2(0, 0)
         if(keyboard.key_pressed('A') and self.getPosition().x > 0):
