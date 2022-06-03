@@ -25,9 +25,13 @@ class Game:
     moveSpeedBase = 360
     window = None
     player = None
-
+    debug = {
+		'scene': None
+	}
+    
     def __init__(self):
         self.__bootstrap()
+        
 
 #------------------------------- ESTÁTICOS -------------------------------------
     @classmethod
@@ -75,7 +79,14 @@ class Game:
 
     def start(self):
         if(Game.DEVELOPMENT_MODE):
+            from Core.Debug import index
+            
             SceneManager.changeScene(SceneManager.getSceneByIndex(1).getSceneName())
+
+            index.createDebugScene()
+            index.showFramerate()
+            
+            Game.debug['scene'].activeScene()
         else:
             SceneManager.changeScene(SceneManager.getSceneByIndex(0).getSceneName())
 
@@ -96,6 +107,9 @@ class Game:
                 Game.window.set_background_color((0, 0, 0))
 
             SceneManager.getCurrentScene().play()
+            
+            if(Game.DEVELOPMENT_MODE):
+                Game.debug['scene'].play()
 
             # Atualizando a janela
             Game.window.update()
