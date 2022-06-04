@@ -19,8 +19,6 @@ class TextComponent(DrawingComponent):
         pass
 
     def draw(self):
-        super().draw()
-
         Game.window.draw_text(
             self.text, 
             self.gameObject.x, 
