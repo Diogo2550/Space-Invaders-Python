@@ -2,6 +2,7 @@
 
 from Core.GameObject import GameObject
 from Core.Components.KineticsComponent import KineticsComponent
+from Core.Components.CollisionComponent import CollisionComponent
 from Core.Vector import Vector2
 
 from GameObjects.Enemy import Enemy
@@ -16,6 +17,8 @@ class EnemiesGrid(GameObject):
         self.enemySize = Vector2(0, 0)
                 
     def _awake(self):
+        self.collision = CollisionComponent()
+        
         for i in range(self.gridWidth):
             for j in range(self.gridHeight):
                 self.addChild(Enemy())
@@ -25,6 +28,7 @@ class EnemiesGrid(GameObject):
         self.updateGridPosition()
         self.kinetics = KineticsComponent()
         self.addComponent(self.kinetics)
+        self.addComponent(self.collision)
         
     def _start(self):
         self.kinetics.disableGravity()
@@ -62,3 +66,4 @@ class EnemiesGrid(GameObject):
     def updateGridSize(self):
         self.width = (self.enemySize.x + self.enemySize.x / 2) * self.gridWidth - self.enemySize.x / 2
         self.height = (self.enemySize.y + self.enemySize.y / 2) * self.gridHeight - self.enemySize.y / 2
+        

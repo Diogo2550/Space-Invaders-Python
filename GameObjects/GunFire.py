@@ -7,6 +7,7 @@ from Core.Vector import Vector2
 from Core.Game import *
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
 
+
 # Classe responsável por representar a bola do Pong
 class GunFire(GameObject):
     def __init__(self):
@@ -35,9 +36,13 @@ class GunFire(GameObject):
     def __addColissionWithEnemies(self):
         enemies = Game.findGameObjectWithName('enemies')
         for enemy in enemies.transform.children:
-            self.collision.addCollisionWith(enemy)
+            enemy.collision.addCollisionWith(self)
+        enemies.collision.addCollisionWith(self)
     
     def onCollided(self, gameObject):
-        self.destroy()
-        gameObject.disable()
-        Game.score += 100
+        from GameObjects.Enemy import Enemy
+        
+        if(isinstance(gameObject, Enemy)):
+            self.destroy()
+            gameObject.disable()
+            Game.score += 100

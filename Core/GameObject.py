@@ -4,6 +4,7 @@ from .Component import Component
 from .Vector import Vector2
 from .Components.TransformComponent import TransformComponent
 from .Components.Abstracts.DrawingComponent import DrawingComponent
+from .Components.CollisionComponent import CollisionComponent
 
 # Classe customizada para manipula��o de gameobjects
 class GameObject(GameObjectP):
@@ -30,6 +31,7 @@ class GameObject(GameObjectP):
             self.transform.parent.removeChild(self)
         else:
             print('objeto principal destruido')
+        self.disable()
 
     def setParent(self, parent):
         self.transform.parent = parent
@@ -65,8 +67,13 @@ class GameObject(GameObjectP):
     def update(self):
         if(self.enabled):
             for component in self.components:
-                component.update()
-
+                if(isinstance(component, CollisionComponent) and self.transform.parent):
+                    parentCollision = self.transform.parent.gameObject.getComponent(CollisionComponent)
+                    if(parentCollision and parentCollision.isColliding()):
+                        component.update()
+                else:
+                    component.update()
+                
         for child in self.transform.children:
             child.update()
 

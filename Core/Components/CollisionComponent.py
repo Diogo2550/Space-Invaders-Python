@@ -27,4 +27,4 @@ class CollisionComponent(Component):
         return len(self.collidedList) > 0
  
     def onCollided(self, gameObject):
-        self.gameObject.onCollided(gameObject)
+        gameObject.onCollided(self.gameObject)
