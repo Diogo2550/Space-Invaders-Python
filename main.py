@@ -75,7 +75,7 @@ scene = Scene('gameplay')
 
 player = Player()
 placar = Score()
-enemyGrid = EnemiesGrid(7, 4)
+enemyGrid = EnemiesGrid(5, 3)
 enemyGrid.setName('enemies')
 
 scene.addGameObject(player)

@@ -44,5 +44,5 @@ class GunFire(GameObject):
         
         if(isinstance(gameObject, Enemy)):
             self.destroy()
-            gameObject.disable()
+            gameObject.destroy()
             Game.score += 100

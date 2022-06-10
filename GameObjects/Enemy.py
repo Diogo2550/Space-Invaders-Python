@@ -13,6 +13,7 @@ from GameObjects.GunFire import GunFire
 class Enemy(GameObject):
     def __init__(self):
         super().__init__()
+        self.index = -1
 
     def _awake(self):
         self.addComponent(SpriteComponent('assets/images/sprites/enemy.png'))
@@ -23,3 +24,9 @@ class Enemy(GameObject):
 
     def _update(self):
         pass
+    
+    def destroy(self):
+        from GameObjects.EnemiesGrid import EnemiesGrid
+        
+        self.disable()
+        self.transform.parent.gameObject.childDestroyed(self.index)

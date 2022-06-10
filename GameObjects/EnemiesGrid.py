@@ -15,13 +15,23 @@ class EnemiesGrid(GameObject):
         self.gridWidth = width
         self.gridHeight = height
         self.enemySize = Vector2(0, 0)
+        
+        # Limite esquerdo da grid. Guardará os índices dos inimigos mais a esquerda
+        self.limitLeft = []
+        # Limite direito da grid. Guardará os índices dos inimigos mais a direita
+        self.limitRight = []
+        
+        self.columnsDestroyedLeft = 0
+        self.columnsDestroyedRight = 0
                 
     def _awake(self):
         self.collision = CollisionComponent()
         
         for i in range(self.gridWidth):
             for j in range(self.gridHeight):
-                self.addChild(Enemy())
+                enemy = Enemy()
+                enemy.index = i * self.gridHeight + j
+                self.addChild(enemy)
         
         self.enemySize = self.transform.children[0].getSize()
         
@@ -59,11 +69,56 @@ class EnemiesGrid(GameObject):
                 offset = Vector2(enemy.width / 2, enemy.height / 2)
                 
                 positionFinal = position + offset
+                
                 enemy.setLocalPosition(
-                    Vector2(positionFinal.x * i, positionFinal.y * j)
+                    Vector2(positionFinal.x * i, positionFinal.y * j) - Vector2(positionFinal.x * (self.columnsDestroyedLeft), 0)
                 )
                 
     def updateGridSize(self):
-        self.width = (self.enemySize.x + self.enemySize.x / 2) * self.gridWidth - self.enemySize.x / 2
+        self.limitLeft = self.__findLimit()
+        self.limitRight = self.__findLimit(False)
+        
+        self.columnsDestroyedLeft = self.limitLeft[0] % self.gridWidth
+        self.columnsDestroyedRight = self.gridWidth - self.limitRight[0] % self.gridWidth - 1
+        
+        
+        self.width = (self.enemySize.x + self.enemySize.x / 2) * (self.gridWidth - (self.columnsDestroyedLeft + self.columnsDestroyedRight)) - self.enemySize.x / 2
         self.height = (self.enemySize.y + self.enemySize.y / 2) * self.gridHeight - self.enemySize.y / 2
         
+    def childDestroyed(self, childIndex):
+        if(childIndex in self.limitLeft):
+            self.limitLeft.remove(childIndex)
+            
+            if(len(self.limitLeft) == 0):
+                self.updateGridSize()
+                
+                children = self.transform.children[childIndex]
+                self.setPosition(
+                    self.getPosition() +
+                    Vector2(children.width + children.width / 2, 0)
+                )
+                
+        if(childIndex in self.limitRight):
+            self.limitRight.remove(childIndex)
+            
+            if(len(self.limitRight) == 0):
+                self.updateGridSize()
+        
+    def __findLimit(self, left = True):
+        totalElements = self.gridWidth * self.gridHeight
+        futher = self.gridWidth if left else 0
+        limit = []
+        
+        for i in range(totalElements):
+            if(left):
+	            if(self.transform.children[i].enabled and i % self.gridWidth < futher):
+                	futher = i
+            else:
+                if(self.transform.children[i].enabled and i % self.gridWidth > futher):
+                	futher = i
+        
+        for i in range(futher, totalElements, self.gridWidth):
+            if(self.transform.children[i].enabled):
+                limit.append(i)
+        
+        return limit

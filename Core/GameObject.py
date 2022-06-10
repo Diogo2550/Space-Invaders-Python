@@ -75,7 +75,8 @@ class GameObject(GameObjectP):
                     component.update()
                 
         for child in self.transform.children:
-            child.update()
+            if(child != None):
+	            child.update()
 
         self._update()
         self._afterUpdated()
