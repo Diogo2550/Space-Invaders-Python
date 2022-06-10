@@ -26,9 +26,9 @@ class Player(GameObject):
         self.setPosition(
             Vector2(Game.WINDOW_WIDTH / 2, Game.WINDOW_HEIGHT) + Vector2(-self.width / 2, -self.height - bottomOffset)
         )
+        self.fireReload = .3 / Game.GAME_DIFFICULTY
 
     def _update(self):
-        self.fireReload = .5 / Game.GAME_DIFFICULTY
         self.moveSpeedBase = Game.moveSpeedBase * Game.GAME_DIFFICULTY
 
         keyboard = Game.getKeyboard()

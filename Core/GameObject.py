@@ -63,8 +63,8 @@ class GameObject(GameObjectP):
         self._start()
 
     def update(self):
-        for component in self.components:
-            if(self.enabled):
+        if(self.enabled):
+            for component in self.components:
                 component.update()
 
         for child in self.transform.children:
@@ -93,8 +93,12 @@ class GameObject(GameObjectP):
 
             for child in self.transform.children:
                 child.draw()
-
-
+                
+    def disable(self):
+        self.enabled = False
+        
+    def enable(self):
+        self.enabled = True
 
 
 #------------------------POSITION METHODS-------------------------------
@@ -154,4 +158,8 @@ class GameObject(GameObjectP):
         pass
 
     def onKeyUp(self):
+        pass
+    
+#-------------------------EVENTS-------------------------------
+    def onCollided(self, gemeObject):
         pass

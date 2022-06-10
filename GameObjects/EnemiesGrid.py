@@ -28,7 +28,7 @@ class EnemiesGrid(GameObject):
         
     def _start(self):
         self.kinetics.disableGravity()
-        self.kinetics.setVelocity(Vector2((Game.moveSpeedBase) / Game.GAME_DIFFICULTY, 0))
+        self.kinetics.setVelocity(Vector2((Game.moveSpeedBase) / 3 / Game.GAME_DIFFICULTY, 0))
         
         self.updateGridSize()
         

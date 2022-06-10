@@ -28,6 +28,7 @@ class Game:
     debug = {
 		'scene': None
 	}
+    score = 0
     
     def __init__(self):
         self.__bootstrap()

@@ -11,6 +11,7 @@ class TransformComponent(Component):
         self.parent = None
         self.children = []
         self.rotateAngle = 0
+        self.name = ''
 
         self.onRotateEvent = []
 

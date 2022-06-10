@@ -19,8 +19,12 @@ class CollisionComponent(Component):
         self.collidedList = []
         
         for obj in self.objects:
-            if(self.gameObject.collided(obj)):
+            if(obj.enabled and self.gameObject.collided(obj)):
                 self.collidedList.append(obj)
+                self.onCollided(obj)
                 
     def isColliding(self):
         return len(self.collidedList) > 0
+ 
+    def onCollided(self, gameObject):
+        self.gameObject.onCollided(gameObject)

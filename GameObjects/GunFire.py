@@ -1,6 +1,7 @@
 # coding= utf-8
 from Core.Components.KineticsComponent import KineticsComponent
 from Core.Components.SpriteComponent import SpriteComponent
+from Core.Components.CollisionComponent import CollisionComponent
 from Core.GameObject import *
 from Core.Vector import Vector2
 from Core.Game import *
@@ -12,8 +13,11 @@ class GunFire(GameObject):
         super().__init__()
 
     def _awake(self):
+        self.collision = CollisionComponent()
+
         self.addComponent(SpriteComponent('assets/images/sprites/effects/fire01.png'))
-        self.addComponent(KineticsComponent())
+        self.addComponent(KineticsComponent())        
+        self.addComponent(self.collision)
 
     def _start(self):
         self.setPosition(self.getPosition() - Vector2(self.width / 2, 0))
@@ -22,7 +26,18 @@ class GunFire(GameObject):
         self.moveSpeedBase = Game.moveSpeedBase * Game.GAME_DIFFICULTY
 
         self.kinetics.setVelocity(Vector2(0, -self.moveSpeedBase))
+        self.__addColissionWithEnemies()
 
     def _afterUpdated(self):
         if(self.y < 0):
             self.destroy()
+            
+    def __addColissionWithEnemies(self):
+        enemies = Game.findGameObjectWithName('enemies')
+        for enemy in enemies.transform.children:
+            self.collision.addCollisionWith(enemy)
+    
+    def onCollided(self, gameObject):
+        self.destroy()
+        gameObject.disable()
+        Game.score += 100
