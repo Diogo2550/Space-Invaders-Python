@@ -30,3 +30,13 @@ class Enemy(GameObject):
         
         self.disable()
         self.transform.parent.gameObject.childDestroyed(self.index)
+    
+    def fire(self):
+        fire = GameObjectBuilder.startBuild(GunFire())\
+                .setPosition(self.getPosition() + Vector2(self.width / 2, self.height + 20))\
+                .build()
+                
+        fire.setVelocity(Vector2(0, (Game.moveSpeedBase - 200) * Game.GAME_DIFFICULTY))
+        fire.addColisionWithPlayer()
+                
+        self.addChild(fire)

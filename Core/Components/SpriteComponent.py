@@ -9,7 +9,10 @@ from .Abstracts.DrawingComponent import *
 class SpriteComponent(DrawingComponent):
     def __init__(self, spritePath):
         super().__init__()
-        self.sprite = pygame.image.load(spritePath).convert_alpha()
+        self.changeSprite(spritePath)
+    
+    def changeSprite(self, spritePath):
+        self.sprite = pygame.image.load(spritePath).convert_alpha()        
     
     def _update(self):
         pass

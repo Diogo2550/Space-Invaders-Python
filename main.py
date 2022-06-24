@@ -11,6 +11,7 @@ from GameObjects.UI.DifficultyChangeButton import DifficultyChangeButton
 from GameObjects.UI.Score import Score
 from GameObjects.Player import Player
 from GameObjects.EnemiesGrid import EnemiesGrid
+from GameObjects.UI.LifesDisplay import LifesDisplay
 
 from Core.GameObject import GameObject
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
@@ -74,13 +75,19 @@ scene.addGameObject(settings_menu)
 scene = Scene('gameplay')
 
 player = Player()
+player.setName('player')
+
 placar = Score()
+vidas = LifesDisplay()
+vidas.setName('hub_lifes_text')
+
 enemyGrid = EnemiesGrid(6, 3)
 enemyGrid.setName('enemies')
 
 scene.addGameObject(player)
 scene.addGameObject(enemyGrid)
 scene.addGameObject(placar)
+scene.addGameObject(vidas)
 
 
 # Adição dos gameobjects ao game

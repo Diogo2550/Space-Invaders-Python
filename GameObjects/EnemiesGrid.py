@@ -11,7 +11,7 @@ from Core.Game import Game
 class EnemiesGrid(GameObject):
     def __init__(self, width = 3, height = 2):
         super().__init__()
-        
+                
         self.gridWidth = width
         self.gridHeight = height
         self.enemySize = Vector2(0, 0)
@@ -41,6 +41,9 @@ class EnemiesGrid(GameObject):
         self.addComponent(self.collision)
         
     def _start(self):
+        self.shootDelay = 1 * Game.GAME_DIFFICULTY
+        self.__lastShoot = 0
+        
         self.kinetics.disableGravity()
         self.kinetics.setVelocity(Vector2((Game.moveSpeedBase) / 3 / Game.GAME_DIFFICULTY, 0))
         
@@ -52,10 +55,15 @@ class EnemiesGrid(GameObject):
         if(self.getPosition().x < 0 or self.getPosition().x > Game.WINDOW_WIDTH - self.width):
             self.kinetics.setVelocity(self.kinetics.velocity * -1)
             self.setPosition(self.getPosition() + Vector2(0, self.enemySize.y))
+            
+        if(self.__lastShoot > self.shootDelay):
+            self.fire()
+        
 
     def _afterUpdated(self):
         if(self.x < 0 or self.x > Game.WINDOW_WIDTH - self.width):
             self.translate(self.kinetics.velocity)
+        self.__lastShoot += Game.DELTA_TIME
         
     def getEnemy(self, i, j):
         return self.transform.children[j * self.gridWidth + i]
@@ -78,9 +86,10 @@ class EnemiesGrid(GameObject):
         self.limitLeft = self.__findLimit()
         self.limitRight = self.__findLimit(False)
         
-        self.columnsDestroyedLeft = self.limitLeft[0] % self.gridWidth
-        self.columnsDestroyedRight = self.gridWidth - self.limitRight[0] % self.gridWidth - 1
-        
+        if(len(self.limitLeft) > 0):
+            self.columnsDestroyedLeft = self.limitLeft[0] % self.gridWidth
+        if(len(self.limitRight) > 0):
+            self.columnsDestroyedRight = self.gridWidth - self.limitRight[0] % self.gridWidth - 1
         
         self.width = (self.enemySize.x + self.enemySize.x / 2) * (self.gridWidth - (self.columnsDestroyedLeft + self.columnsDestroyedRight)) - self.enemySize.x / 2
         self.height = (self.enemySize.y + self.enemySize.y / 2) * self.gridHeight - self.enemySize.y / 2
@@ -103,6 +112,16 @@ class EnemiesGrid(GameObject):
             
             if(len(self.limitRight) == 0):
                 self.updateGridSize()
+                
+    def fire(self):
+        from random import randint
+        
+        enemy = self.__getShooter()
+        if(enemy != None):
+	        enemy.fire()
+        
+        self.__lastShoot = 0
+        self.shootDelay = 2 * Game.GAME_DIFFICULTY + randint(-2, 2)/10
         
     def __findLimit(self, left = True):
         totalElements = self.gridWidth * self.gridHeight
@@ -122,3 +141,22 @@ class EnemiesGrid(GameObject):
                 limit.append(i)
         
         return limit
+    
+    def __getShooter(self):
+        from random import randint
+        minOffset = self.columnsDestroyedLeft
+        maxOffset = self.gridWidth - self.columnsDestroyedRight - 1
+        
+        shooter = None
+        gameFinished = self.columnsDestroyedLeft + self.columnsDestroyedRight >= self.gridWidth - 1
+        while(shooter == None and not gameFinished):
+            column = randint(minOffset, maxOffset)
+            
+            for enemyLine in range(self.gridHeight - 1, 0, -1):
+                shooterAux = self.getEnemy(column, enemyLine)
+                if(shooterAux.enabled):
+                    shooter = shooterAux
+                    break
+        
+        return shooter
+        

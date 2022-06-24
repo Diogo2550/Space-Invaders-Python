@@ -60,6 +60,10 @@ class Game:
     @classmethod
     def developmentMode(cls):
         cls.DEVELOPMENT_MODE = True
+        
+    @classmethod
+    def gameOver(cls):
+        pass
 
 # ------------------------------- ADIÇÃO DE ELEMENTOS -------------------------------------
     def setBackground(self, backgroundPath):
