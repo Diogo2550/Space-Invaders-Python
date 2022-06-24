@@ -63,7 +63,7 @@ class Game:
         
     @classmethod
     def gameOver(cls):
-        pass
+        SceneManager.changeScene('main_menu')
 
 # ------------------------------- ADIÇÃO DE ELEMENTOS -------------------------------------
     def setBackground(self, backgroundPath):

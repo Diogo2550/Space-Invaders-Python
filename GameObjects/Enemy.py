@@ -23,7 +23,8 @@ class Enemy(GameObject):
         self.addComponent(self.collision)
 
     def _update(self):
-        pass
+        if(self.enabled and self.getPosition().y + self.height > Game.WINDOW_HEIGHT - 100):
+            Game.gameOver()
     
     def destroy(self):
         from GameObjects.EnemiesGrid import EnemiesGrid

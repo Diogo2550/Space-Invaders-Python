@@ -152,7 +152,7 @@ class EnemiesGrid(GameObject):
         while(shooter == None and not gameFinished):
             column = randint(minOffset, maxOffset)
             
-            for enemyLine in range(self.gridHeight - 1, 0, -1):
+            for enemyLine in range(self.gridHeight - 1, -1, -1):
                 shooterAux = self.getEnemy(column, enemyLine)
                 if(shooterAux.enabled):
                     shooter = shooterAux
