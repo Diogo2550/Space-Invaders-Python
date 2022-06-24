@@ -14,8 +14,8 @@ class Game:
 
     # Configurações da janela
     WINDOW_TITLE = 'Space Warriors'
-    WINDOW_WIDTH = 1200
-    WINDOW_HEIGHT = 700
+    WINDOW_WIDTH = 1400
+    WINDOW_HEIGHT = 560
     DELTA_TIME = 0
 
     SPEED_MULTIPLIER = 1
