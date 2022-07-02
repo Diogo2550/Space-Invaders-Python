@@ -28,3 +28,4 @@ class CollisionComponent(Component):
  
     def onCollided(self, gameObject):
         gameObject.onCollided(self.gameObject)
+        self.gameObject.onCollided(gameObject)

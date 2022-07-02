@@ -14,6 +14,12 @@ class Scene:
 
     def addGameObject(self, gameObject):
         self.__gameObjects.append(gameObject)
+        if(self.__activated):
+            gameObject.awake()
+            gameObject.start()
+            
+    def removeGameObject(self, gameobject):
+        self.__gameObjects.remove(gameobject)
 
     def getGameObjects(self):
         return self.__gameObjects

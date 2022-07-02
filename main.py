@@ -81,7 +81,7 @@ placar = Score()
 vidas = LifesDisplay()
 vidas.setName('hub_lifes_text')
 
-enemyGrid = EnemiesGrid(6, 3)
+enemyGrid = EnemiesGrid(2, 2)
 enemyGrid.setName('enemies')
 
 scene.addGameObject(player)

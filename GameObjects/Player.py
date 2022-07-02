@@ -34,12 +34,12 @@ class Player(GameObject):
         self.kinetics.disableGravity()
         self.collision = self.getComponent(CollisionComponent)
 
-        self.fireReload = .3 / Game.GAME_DIFFICULTY
+        self.fireReload = .8  * Game.GAME_DIFFICULTY
         
         self.restart()
+        self.moveSpeedBase = Game.moveSpeedBase / Game.GAME_DIFFICULTY
 
     def _update(self):
-        self.moveSpeedBase = Game.moveSpeedBase * Game.GAME_DIFFICULTY
 
         keyboard = Game.getKeyboard()
         velocity = Vector2(0, 0)
@@ -69,7 +69,7 @@ class Player(GameObject):
                 .setPosition(self.getPosition() + Vector2(self.width / 2, 0))\
                 .build()
         
-        fire.setVelocity(Vector2(0, -(Game.moveSpeedBase * Game.GAME_DIFFICULTY)))
+        fire.setVelocity(Vector2(0, -(Game.moveSpeedBase / 7 / (Game.GAME_DIFFICULTY * .1))))
         fire.addColissionWithEnemies()
         
         self.addChild(fire)
@@ -105,3 +105,9 @@ class Player(GameObject):
     def desabilitaInvunerabilidade(self):
         self.invuneravel = False
         self.sprite.changeSprite(self.spriteNormal)
+    
+    def onCollided(self, gameObject):
+        from GameObjects.EnemiesGrid import EnemiesGrid
+        
+        if(isinstance(gameObject, EnemiesGrid)):
+            Game.gameOver()

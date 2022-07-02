@@ -19,7 +19,7 @@ class Game:
     DELTA_TIME = 0
 
     SPEED_MULTIPLIER = 1
-    GAME_DIFFICULTY = 1
+    GAME_DIFFICULTY = 15
     GAME_MODE = 2
 
     moveSpeedBase = 360
@@ -64,6 +64,35 @@ class Game:
     @classmethod
     def gameOver(cls):
         SceneManager.changeScene('main_menu')
+        currentScore = [] # ('nome', 'score')
+
+        playerName = input("Digite o seu nome: ")
+        
+        file = None
+        try:
+	        file = open('save/save.txt', 'r+')
+        except:
+            file = open('save/save.txt', 'w+')
+            
+        currentScore.append((playerName, Game.score))
+        for line in file:
+            lineScore = line.split('=')
+            currentScore.append((lineScore[0], lineScore[1][0:-1]))
+        for line in currentScore:
+            file.write(f"{line[0]}={line[1]}\n")
+            
+        print(currentScore)
+        print('Jogo salvo com sucesso!')
+        
+    @classmethod
+    def newLevel(cls):
+        from GameObjects.EnemiesGrid import EnemiesGrid
+        cls.GAME_DIFFICULTY += 0.5
+        
+        enemyGrid = EnemiesGrid(6, 2)
+        enemyGrid.setName('enemies')
+
+        SceneManager.getCurrentScene().addGameObject(enemyGrid)
 
 # ------------------------------- ADIÇÃO DE ELEMENTOS -------------------------------------
     def setBackground(self, backgroundPath):
