@@ -16,5 +16,6 @@ class DifficultyChangeButton(UIButton):
     def onClick(self):
         Game.findGameObjectWithName('settings_menu').enabled = False
         Game.findGameObjectWithName('main_menu').enabled = True
+        Game.findGameObjectWithName('ranking_menu').enabled = False
 
         Game.GAME_DIFFICULTY = self.difficulty

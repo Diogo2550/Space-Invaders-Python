@@ -3,6 +3,7 @@
 from Core.Components.KineticsComponent import *
 from Core.Components.SpriteComponent import SpriteComponent
 
+from GameObjects.UI.RankingText import RankingText
 from GameObjects.UI.PlayButton import PlayButton
 from GameObjects.UI.CloseButton import CloseButton
 from GameObjects.UI.SettingsButton import SettingsButton
@@ -53,6 +54,8 @@ hard_button = GameObjectBuilder.startBuild(DifficultyChangeButton())\
                 .build()
 hard_button.difficulty = .5
 
+ranking = RankingText()
+
 main_menu = GameObject()
 main_menu.setName('main_menu')
 main_menu.addChild(playButton)
@@ -67,8 +70,14 @@ settings_menu.addChild(normal_button)
 settings_menu.addChild(hard_button)
 settings_menu.enabled = False
 
+ranking_menu = GameObject()
+ranking_menu.setName('ranking_menu')
+ranking_menu.addChild(ranking)
+ranking_menu.enabled = False
+
 scene.addGameObject(main_menu)
 scene.addGameObject(settings_menu)
+scene.addGameObject(ranking_menu)
 
 
 # SCENE - GAMEPLAY

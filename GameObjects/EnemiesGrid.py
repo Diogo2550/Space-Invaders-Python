@@ -64,8 +64,8 @@ class EnemiesGrid(GameObject):
             self.fire()      
 
     def _afterUpdated(self):
-        if(self.x <= 0 or self.x >= Game.WINDOW_WIDTH - self.width):
-            self.translate(self.kinetics.velocity)
+        if(self.x < 0 or self.x > Game.WINDOW_WIDTH - self.width):
+            self.kinetics.undoMoviment()
         self.__lastShoot += Game.DELTA_TIME
         
     def getEnemy(self, i, j):

@@ -23,3 +23,8 @@ class RankingButton(UIButton):
 
     def _update(self):
         pass
+    
+    def onClick(self):
+        Game.findGameObjectWithName('settings_menu').enabled = False
+        Game.findGameObjectWithName('main_menu').enabled = False
+        Game.findGameObjectWithName('ranking_menu').enabled = True

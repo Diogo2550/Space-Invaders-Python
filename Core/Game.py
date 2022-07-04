@@ -63,25 +63,13 @@ class Game:
         
     @classmethod
     def gameOver(cls):
-        SceneManager.changeScene('main_menu')
-        currentScore = [] # ('nome', 'score')
-
-        playerName = input("Digite o seu nome: ")
+        from .FileScoreManager import gravaPontuacao
         
-        file = None
-        try:
-	        file = open('save/save.txt', 'r+')
-        except:
-            file = open('save/save.txt', 'w+')
-            
-        currentScore.append((playerName, Game.score))
-        for line in file:
-            lineScore = line.split('=')
-            currentScore.append((lineScore[0], lineScore[1][0:-1]))
-        for line in currentScore:
-            file.write(f"{line[0]}={line[1]}\n")
-            
-        print(currentScore)
+        SceneManager.changeScene('main_menu')
+
+        playerName = input("Digite o seu nome: ")        
+        gravaPontuacao((playerName, Game.score))
+        
         print('Jogo salvo com sucesso!')
         
     @classmethod

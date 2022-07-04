@@ -2,6 +2,7 @@
 from Core.Component import *
 from Core.PPlay.sprite import *
 from Core.Game import Game
+from pygame import *
 
 from .Abstracts.DrawingComponent import *
 
@@ -19,14 +20,11 @@ class TextComponent(DrawingComponent):
         pass
 
     def draw(self):
-        Game.window.draw_text(
-            self.text, 
-            self.gameObject.x, 
-            self.gameObject.y, 
-            self.font_size, 
-            self.font_color, 
-            self.font_family
-        )
+        font = pygame.font.SysFont(self.font_family, self.font_size, False, False)
+
+        lines = self.text.splitlines()
+        for i, l in enumerate(lines):
+            Game.window.screen.blit(font.render(l, 0, self.font_color), (self.gameObject.x, self.gameObject.y + self.font_size*i))
         
     def setText(self, text):
         self.text = text
