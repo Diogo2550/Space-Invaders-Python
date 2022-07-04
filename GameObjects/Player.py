@@ -37,12 +37,12 @@ class Player(GameObject):
         self.fireReload = .8  * Game.GAME_DIFFICULTY
         
         self.restart()
-        self.moveSpeedBase = Game.moveSpeedBase / Game.GAME_DIFFICULTY
+        self.moveSpeedBase = Game.moveSpeedBase / (Game.GAME_DIFFICULTY * .6)
 
     def _update(self):
-
         keyboard = Game.getKeyboard()
         velocity = Vector2(0, 0)
+        
         if(keyboard.key_pressed('A') and self.getPosition().x > 0):
             velocity = Vector2(-self.moveSpeedBase, 0)
         elif(keyboard.key_pressed('D') and self.getPosition().x < Game.WINDOW_WIDTH - self.width):
@@ -69,7 +69,7 @@ class Player(GameObject):
                 .setPosition(self.getPosition() + Vector2(self.width / 2, 0))\
                 .build()
         
-        fire.setVelocity(Vector2(0, -(Game.moveSpeedBase / 7 / (Game.GAME_DIFFICULTY * .1))))
+        fire.setVelocity(Vector2(0, -(Game.moveSpeedBase / 5 / (Game.GAME_DIFFICULTY * .1))))
         fire.addColissionWithEnemies()
         
         self.addChild(fire)
@@ -107,7 +107,7 @@ class Player(GameObject):
         self.sprite.changeSprite(self.spriteNormal)
     
     def onCollided(self, gameObject):
-        from GameObjects.EnemiesGrid import EnemiesGrid
+        from GameObjects.Enemy import Enemy
         
-        if(isinstance(gameObject, EnemiesGrid)):
+        if(isinstance(gameObject, Enemy)):
             Game.gameOver()

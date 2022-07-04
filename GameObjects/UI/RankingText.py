@@ -26,6 +26,7 @@ class RankingText(GameObject):
         text = ''
         for score in ranking:
             text += f'{score[0]:40} {score[1]}\n'
+        text += '\nPressione ESC para retornar ao menu'
         
         self.text.setText(text)
     

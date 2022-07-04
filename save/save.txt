@@ -1,6 +1,0 @@
-alves=100
-gabriele=100
-teste=100
-diogo=100
-diogo=100
-o mago=100

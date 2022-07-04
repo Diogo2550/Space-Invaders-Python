@@ -46,13 +46,13 @@ normal_button = GameObjectBuilder.startBuild(DifficultyChangeButton())\
                 .addComponent(SpriteComponent('assets/images/ui/menu/normal_button.png'))\
                 .setPosition(Game.getWindowCenter() - GameObjectBuilder.instance.getCenterPoint())\
                 .build()
-normal_button.difficulty = .8
+normal_button.difficulty = 1.6
 
 hard_button = GameObjectBuilder.startBuild(DifficultyChangeButton())\
                 .addComponent(SpriteComponent('assets/images/ui/menu/hard_button.png'))\
                 .setPosition(Game.getWindowCenter() - GameObjectBuilder.instance.getCenterPoint() + Vector2(0, 50))\
                 .build()
-hard_button.difficulty = .5
+hard_button.difficulty = 2.4
 
 ranking = RankingText()
 
@@ -90,7 +90,7 @@ placar = Score()
 vidas = LifesDisplay()
 vidas.setName('hub_lifes_text')
 
-enemyGrid = EnemiesGrid(2, 2)
+enemyGrid = EnemiesGrid(6, 2)
 enemyGrid.setName('enemies')
 
 scene.addGameObject(player)
@@ -104,5 +104,5 @@ game.setPlayer(player)
 
 
 # Iniciação do game loop
-game.developmentMode()
+#game.developmentMode()
 game.start()

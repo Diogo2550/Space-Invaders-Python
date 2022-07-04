@@ -21,6 +21,8 @@ class Enemy(GameObject):
     def _start(self):
         self.collision = CollisionComponent()
         self.addComponent(self.collision)
+        
+        self.collision.addCollisionWith(Game.player)
 
     def _update(self):
         pass
@@ -32,13 +34,3 @@ class Enemy(GameObject):
         
         self.disable()
         self.transform.parent.gameObject.childDestroyed(self.index)
-    
-    def fire(self):
-        fire = GameObjectBuilder.startBuild(GunFire())\
-                .setPosition(self.getPosition() + Vector2(self.width / 2, self.height + 20))\
-                .build()
-                
-        fire.setVelocity(Vector2(0, (Game.moveSpeedBase - 200) * Game.GAME_DIFFICULTY))
-        fire.addColisionWithPlayer()
-                
-        self.addChild(fire)

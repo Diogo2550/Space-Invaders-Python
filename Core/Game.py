@@ -19,7 +19,7 @@ class Game:
     DELTA_TIME = 0
 
     SPEED_MULTIPLIER = 1
-    GAME_DIFFICULTY = 15
+    GAME_DIFFICULTY = 1
     GAME_MODE = 2
 
     moveSpeedBase = 360
@@ -71,6 +71,7 @@ class Game:
         gravaPontuacao((playerName, Game.score))
         
         print('Jogo salvo com sucesso!')
+        cls.window.close()
         
     @classmethod
     def newLevel(cls):

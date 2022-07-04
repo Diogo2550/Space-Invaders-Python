@@ -5,7 +5,10 @@ from Core.Components.KineticsComponent import KineticsComponent
 from Core.Components.CollisionComponent import CollisionComponent
 from Core.Vector import Vector2
 
+from Core.Builders.GameObjectBuilder import GameObjectBuilder
+
 from GameObjects.Enemy import Enemy
+from GameObjects.GunFire import GunFire
 from Core.Game import Game
 
 class EnemiesGrid(GameObject):
@@ -61,12 +64,15 @@ class EnemiesGrid(GameObject):
             self.setPosition(self.getPosition() + Vector2(0, self.enemySize.y))
             
         if(self.__lastShoot > self.shootDelay):
-            self.fire()      
+            self.fire()
 
     def _afterUpdated(self):
-        if(self.x < 0 or self.x > Game.WINDOW_WIDTH - self.width):
+        if(self.x <= 2 or self.x >= Game.WINDOW_WIDTH - self.width - 2):
             self.kinetics.undoMoviment()
         self.__lastShoot += Game.DELTA_TIME
+        
+        if(self.getPosition().y > Game.WINDOW_HEIGHT):
+            Game.gameOver()
         
     def getEnemy(self, i, j):
         return self.transform.children[j * self.gridWidth + i]
@@ -77,7 +83,7 @@ class EnemiesGrid(GameObject):
                 enemy = self.getEnemy(i, j)
                 
                 position = Vector2(enemy.width, enemy.height)
-                offset = Vector2(enemy.width / 2, enemy.height / 2)
+                offset = Vector2(enemy.width / 2, (enemy.height / 2) - 40)
                 
                 positionFinal = position + offset
                 
@@ -95,7 +101,7 @@ class EnemiesGrid(GameObject):
             self.columnsDestroyedRight = self.gridWidth - self.limitRight[0] % self.gridWidth - 1
         
         self.width = (self.enemySize.x + self.enemySize.x / 2) * (self.gridWidth - (self.columnsDestroyedLeft + self.columnsDestroyedRight)) - self.enemySize.x / 2
-        self.height = (self.enemySize.y + self.enemySize.y / 2) * self.gridHeight - self.enemySize.y / 2
+        self.height = (self.enemySize.y + self.enemySize.y / 2) * self.gridHeight - (self.enemySize.y / 2) - 40
         
     def childDestroyed(self, childIndex):
         if(childIndex in self.limitLeft):
@@ -129,7 +135,7 @@ class EnemiesGrid(GameObject):
         
         enemy = self.__getShooter()
         if(enemy != None):
-	        enemy.fire()
+	        self.shoot(enemy)
         
         self.__lastShoot = 0
         self.shootDelay = 2 / (Game.GAME_DIFFICULTY) + (randint(6, 6)/10)
@@ -170,3 +176,13 @@ class EnemiesGrid(GameObject):
                     break
         
         return shooter
+    
+    def shoot(self, enemy):
+        fire = GameObjectBuilder.startBuild(GunFire())\
+                .setPosition(enemy.getPosition() + Vector2(enemy.width / 2, enemy.height + 20))\
+                .build()
+                
+        fire.setVelocity(Vector2(0, (Game.moveSpeedBase - 200) * Game.GAME_DIFFICULTY))
+        fire.addColisionWithPlayer()
+                
+        self.addChild(fire)
