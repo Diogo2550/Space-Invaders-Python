@@ -104,7 +104,8 @@ class Game:
         if(Game.DEVELOPMENT_MODE):
             from Core.Debug import index
             
-            SceneManager.changeScene(SceneManager.getSceneByIndex(1).getSceneName())
+            #SceneManager.changeScene(SceneManager.getSceneByIndex(1).getSceneName())
+            SceneManager.changeScene(SceneManager.getSceneByIndex(0).getSceneName())
 
             index.createDebugScene()
             index.showFramerate()

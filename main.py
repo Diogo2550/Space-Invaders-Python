@@ -104,5 +104,5 @@ game.setPlayer(player)
 
 
 # Iniciação do game loop
-#game.developmentMode()
+game.developmentMode()
 game.start()

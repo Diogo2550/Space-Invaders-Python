@@ -50,8 +50,8 @@ class GunFire(GameObject):
         
         if(isinstance(gameObject, Enemy)):
             self.destroy()
-            gameObject.destroy()
-            Game.score += 100
+            gameObject.damage()
+            Game.score += gameObject.scoreValue
         
         if(isinstance(gameObject, Player)):
             gameObject.tookDamage()

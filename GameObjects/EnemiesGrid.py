@@ -8,6 +8,7 @@ from Core.Vector import Vector2
 from Core.Builders.GameObjectBuilder import GameObjectBuilder
 
 from GameObjects.Enemy import Enemy
+from GameObjects.Boss import Boss
 from GameObjects.GunFire import GunFire
 from Core.Game import Game
 
@@ -33,13 +34,7 @@ class EnemiesGrid(GameObject):
     def _awake(self):
         self.collision = CollisionComponent()
         
-        for i in range(self.gridWidth):
-            for j in range(self.gridHeight):
-                enemy = Enemy()
-                enemy.index = i * self.gridHeight + j
-                self.addChild(enemy)
-        
-        self.enemySize = self.transform.children[0].getSize()
+        self.instantiateEnemies()
         
         self.updateGridPosition()
         self.kinetics = KineticsComponent()
@@ -83,7 +78,7 @@ class EnemiesGrid(GameObject):
                 enemy = self.getEnemy(i, j)
                 
                 position = Vector2(enemy.width, enemy.height)
-                offset = Vector2(enemy.width / 2, (enemy.height / 2) - 40)
+                offset = Vector2(enemy.width / 2, (enemy.height / 2) - 30)
                 
                 positionFinal = position + offset
                 
@@ -186,3 +181,23 @@ class EnemiesGrid(GameObject):
         fire.addColisionWithPlayer()
                 
         self.addChild(fire)
+        
+    def instantiateEnemies(self):
+        from random import randint
+        
+        bossPosition = randint(0, self.gridWidth * self.gridHeight - 1)
+        for i in range(self.gridWidth):
+            for j in range(self.gridHeight):
+                enemy = None
+                enemyIndex = i * self.gridHeight + j
+                
+                if(enemyIndex == bossPosition):
+                    enemy = Boss()
+                else:
+                    enemy = Enemy()
+                    
+                enemy.index = enemyIndex
+                self.addChild(enemy)
+        
+        enemyPosition = 0 if bossPosition != 0 else 1
+        self.enemySize = self.transform.children[enemyPosition].getSize()

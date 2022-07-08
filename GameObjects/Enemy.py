@@ -14,6 +14,8 @@ class Enemy(GameObject):
     def __init__(self):
         super().__init__()
         self.index = -1
+        self.lifes = 1
+        self.scoreValue = 100
 
     def _awake(self):
         self.addComponent(SpriteComponent('assets/images/sprites/enemy.png'))
@@ -28,6 +30,11 @@ class Enemy(GameObject):
         pass
         #if(self.enabled and self.getPosition().y + self.height > Game.WINDOW_HEIGHT - 100):
         #    Game.gameOver()
+
+    def damage(self):
+        self.lifes -= 1
+        if(self.lifes <= 0):
+            self.destroy()
     
     def destroy(self):
         from GameObjects.EnemiesGrid import EnemiesGrid
